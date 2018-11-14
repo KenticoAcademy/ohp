@@ -1,2 +1,2 @@
 # ohp
-OHP prototypy
+OHP prototypes
