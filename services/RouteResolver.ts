@@ -6,17 +6,17 @@ export class RouteResolver {
 
   constructor() {
     this.recalculateRouting();
-  };
+  }
 
   private _parseNavigationItems = (navigationItems: NavigationItem[]) => {
     navigationItems.forEach(item => {
       item.children.forEach(base => {
         base.children.forEach(child =>
-          this._routes.set(`${item.url.value}/${base.url.value}/${child.url.value}`, child.system.codename)
+          this._routes.set(`/${item.url.value}/${base.url.value}/${child.url.value}`, child.system.codename)
         );
-        this._routes.set(`${item.url.value}/${base.url.value}`, base.system.codename);
+        this._routes.set(`/${item.url.value}/${base.url.value}`, base.system.codename);
       });
-      this._routes.set(`${item.url.value}`, item.system.codename);
+      this._routes.set(`/${item.url.value}`, item.system.codename);
     });
   };
 
@@ -24,7 +24,7 @@ export class RouteResolver {
     KenticoClient
       .items<NavigationItem>()
       .type('navigation_item')
-      .depthParameter(3)
+      .depthParameter(4)
       .getObservable()
       .subscribe(response => this._parseNavigationItems(response.items));
   };

@@ -7,35 +7,40 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const server = express();
-  console.log('Server jede');
+    const server = express();
 
-  const router = new RouteResolver();
+    // Firstly build map between the url slugs and codenames
+    const resolver = new RouteResolver();
 
-  server.get('/:id', (req, res) => {
-    const route = router.getCodenameFromRoute(req.params.id);
-    app.render(req, res, '/test', { title: req.params.id, route: route });
-  });
+    // We need to handle request for this urls otherwise we will have problems with codeName generation and loading of the items
+    server.get(`/favicon.ico`, () => {});
+    server.get(`/_next/:any`, () => {});
 
     server.get(`/:parentSlug/:childSlug/:article`, (req, res) => {
         const actualPage = '/article';
-        const queryParams = { title: req.params.article };
+        const codeName = resolver.getCodenameFromRoute(req.path);
+        console.log('Path article je ' + req.path);
+        console.log('Codename article je ' + codeName);
 
-        app.render(req, res, actualPage, queryParams)
+        app.render(req, res, actualPage, { codeName });
     });
 
     server.get(`/:parentSlug/:childSlug`, (req, res) => {
         const actualPage = '/subMenuItem';
-        const queryParams = { title: req.params.childSlug };
+        const codeName = resolver.getCodenameFromRoute(req.path);
+        console.log('Path article je ' + req.path);
+        console.log('Codename article je ' + codeName);
 
-        app.render(req, res, actualPage, queryParams)
+        app.render(req, res, actualPage, { codeName });
     });
 
     server.get(`/:parentSlug`, (req, res) => {
         const actualPage = '/menuItem';
-        const queryParams = { title: req.params.parentSlug };
+        const codeName = resolver.getCodenameFromRoute(req.path);
+        console.log('Path article je ' + req.path);
+        console.log('Codename article je ' + codeName);
 
-        app.render(req, res, actualPage, queryParams);
+        app.render(req, res, actualPage, { codeName });
     });
 
     server.get('*', (req, res) => {

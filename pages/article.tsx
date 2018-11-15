@@ -1,16 +1,19 @@
 import React from 'react';
-import {KenticoClient} from "../services/KenticoClient";
-import {RouteResolver} from "../services/RouteResolver";
+import { KenticoClient } from "../services/KenticoClient";
+import { GetInitialPropsObject } from "../models/InitialPropsAttributes";
+import { Document } from "../models/document";
+import Navigation from "../components/Navigation";
 
 interface ArticleDataProps {
-    readonly article: any;
+    readonly article: Document;
 }
 
 export default class Article extends React.Component<ArticleDataProps> {
-    static async getInitialProps({ req }: any) {
-        const routeResolver = new RouteResolver();
-        const codeName = routeResolver.getCodenameFromRoute(req.path);
-        const article = await KenticoClient.item(codeName);
+    static async getInitialProps({ query }: GetInitialPropsObject): Promise<ArticleDataProps> {
+        const article = await KenticoClient
+            .item<Document>(query.codeName)
+            .getPromise()
+            .then(response => response.item);
 
         return { article };
     }
@@ -18,8 +21,10 @@ export default class Article extends React.Component<ArticleDataProps> {
     render() {
         return (
             <div>
-                <h1>{this.props.article.title}</h1>
-                <div>Working Article!!!</div>
-            </div>);
+                <Navigation />
+                <h1>{this.props.article.title.value}</h1>
+                <div dangerouslySetInnerHTML={{ __html: this.props.article.content.value }} />
+            </div>
+        );
     }
 }
