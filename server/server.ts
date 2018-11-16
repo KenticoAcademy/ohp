@@ -17,30 +17,15 @@ app.prepare().then(() => {
     server.get(`/_next/:any`, () => {});
 
     server.get(`/:parentSlug/:childSlug/:article`, (req, res) => {
-        const actualPage = '/article';
-        const codeName = resolver.getCodenameFromRoute(req.path);
-        console.log('Path article je ' + req.path);
-        console.log('Codename article je ' + codeName);
-
-        app.render(req, res, actualPage, { codeName });
+        renderPage(resolver, req, res,'/article');
     });
 
     server.get(`/:parentSlug/:childSlug`, (req, res) => {
-        const actualPage = '/subMenuItem';
-        const codeName = resolver.getCodenameFromRoute(req.path);
-        console.log('Path article je ' + req.path);
-        console.log('Codename article je ' + codeName);
-
-        app.render(req, res, actualPage, { codeName });
+        renderPage(resolver, req, res,'/subMenuItem');
     });
 
     server.get(`/:parentSlug`, (req, res) => {
-        const actualPage = '/menuItem';
-        const codeName = resolver.getCodenameFromRoute(req.path);
-        console.log('Path article je ' + req.path);
-        console.log('Codename article je ' + codeName);
-
-        app.render(req, res, actualPage, { codeName });
+        renderPage(resolver, req, res,'/menuItem');
     });
 
     server.get('*', (req, res) => {
@@ -56,3 +41,10 @@ app.prepare().then(() => {
     console.error(ex.stack);
     process.exit(1);
 });
+
+function renderPage(resolver: RouteResolver, req: any, res: any, actualPage: string) {
+    const codeName = resolver.getCodenameFromRoute(req.path);
+    const rootCodeName = resolver.getCodenameFromRoute('/' + req.params.parentSlug);
+
+    app.render(req, res, actualPage, { codeName, rootCodeName });
+}
