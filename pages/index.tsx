@@ -1,9 +1,7 @@
 import React from 'react';
 
-const Index = () => (
+export default () => (
   <div>
     Working TypeScript!!!
   </div>
 );
-
-export default Index
