@@ -1,0 +1,1 @@
+To install packages, go to KUDU -> Debug console -> CMD -> cd D:\home\site\wwwroot\<name_of_function> -> npm install
