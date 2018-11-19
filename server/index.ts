@@ -1,5 +1,5 @@
 import * as express from 'express';
-import {default as routes} from './routes';
+import {routes} from './routes';
 import {nextApp} from './next/nextApp';
 
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;

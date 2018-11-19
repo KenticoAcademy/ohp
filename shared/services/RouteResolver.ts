@@ -1,7 +1,12 @@
 import {KenticoClient} from './KenticoClient';
 import {NavigationItem} from '../models/navigation_item';
 
-class RouteResolver {
+interface IRouteResolver {
+  getCodenameFromRoute: (route: string) => string;
+  recalculateRouting: () => void;
+}
+
+class RouteResolver implements IRouteResolver {
   private _routes: Map<string, string>;
 
   constructor() {
@@ -13,11 +18,11 @@ class RouteResolver {
     navigationItems.forEach(item => {
       item.children.forEach(base => {
         base.children.forEach(child =>
-          this._routes.set(`${item.url.value}/${base.url.value}/${child.url.value}`, child.system.codename)
+          this._routes.set(`/${item.url.value}/${base.url.value}/${child.url.value}`, child.system.codename)
         );
-        this._routes.set(`${item.url.value}/${base.url.value}`, base.system.codename);
+        this._routes.set(`/${item.url.value}/${base.url.value}`, base.system.codename);
       });
-      this._routes.set(`${item.url.value}`, item.system.codename);
+      this._routes.set(`/${item.url.value}`, item.system.codename);
     });
   };
 
@@ -40,4 +45,7 @@ class RouteResolver {
 const instance = new RouteResolver();
 Object.freeze(instance);
 
-export default instance;
+export {
+  instance as RouteResolver,
+  IRouteResolver
+};
