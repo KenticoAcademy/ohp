@@ -8,19 +8,12 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using KenticoCloud.Delivery;
 
-public Dictionary<string, string> map = new Dictionary<string, string>();
+private Dictionary<string, string> map = new Dictionary<string, string>();
 
 public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
 {
-    /*
-        var client = new HttpClient();
-        var res = client.PostAsync(
-        "XXX",
-        content
-    );*/
-
-    var dic = await GetCodenames();
-    var json = JsonConvert.SerializeObject(dic, Formatting.Indented);
+    var dictionary = await GetCodenames();
+    var json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
     return (ActionResult)new OkObjectResult($"{json}");
 }
