@@ -3,12 +3,13 @@ import React from 'react';
 import { KenticoClient } from '../shared/services/KenticoClient';
 import { NavigationItem } from '../shared/models/navigation_item';
 import { isExternalUrl } from '../utils/isExternalUrl';
+import { SearchPanel } from "../search/components/SearchPanel";
 
 interface NavigationState {
   readonly root: NavigationItem;
 }
 
-export class TopLevelMenu extends React.Component<{}, NavigationState>{
+export class TopLevelMenu extends React.Component<{}, NavigationState> {
   constructor() {
     super({});
 
@@ -41,6 +42,7 @@ export class TopLevelMenu extends React.Component<{}, NavigationState>{
     return (
       <div style={{ display: 'flex' }}>
         {topLevelMenuItems}
+        <SearchPanel/>
       </div>
     );
   }
