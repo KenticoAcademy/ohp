@@ -33,14 +33,14 @@ export class SideMenuSection extends React.Component<SideMenuSectionDataProps, S
 
   render() {
     return (
-      <div key={this.props.key} style={{ paddingRight: '50px', paddingLeft: '50px', paddingBottom: '15px'}}>
+      <div key={this.props.key} style={{ paddingRight: '50px', paddingLeft: '50px', paddingBottom: '15px' }}>
         <b
-          style={{ color: 'orange', textDecoration: 'underline',  cursor: 'pointer' }}
+          style={{ color: 'orange', textDecoration: 'underline', cursor: 'pointer' }}
           onClick={this.handleSubMenuClick}
         >
           {this.props.nav.title.value}
         </b>
-        <div style={{ paddingRight: '10px', paddingLeft: '10px'}}>
+        <div style={{ paddingRight: '10px', paddingLeft: '10px' }}>
           {
             this.state.isExpanded
               ? this.props.nav.children.map((article, index) => this.renderArticleLink(article, index, this.props.nav))

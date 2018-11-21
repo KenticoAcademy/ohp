@@ -11,11 +11,11 @@ export class Layout extends React.Component<LayoutDataProps> {
   render() {
     return (
       <div>
-        <TopLevelMenu />
-        <div style={{ float: 'left', width: '15%', paddingTop: '50px'}}>
+        <TopLevelMenu/>
+        <div style={{ float: 'left', width: '15%', paddingTop: '50px' }}>
           <SideMenu rootCodeName={this.props.rootCodeName}/>
         </div>
-        <div style={{ float: 'right', width: '85%'}}>
+        <div style={{ float: 'right', width: '85%' }}>
           {this.props.children}
         </div>
       </div>

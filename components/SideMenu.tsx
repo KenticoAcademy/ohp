@@ -11,7 +11,7 @@ interface NavigationProps {
   readonly rootCodeName: string;
 }
 
-export class SideMenu extends React.Component<NavigationProps, NavigationState>{
+export class SideMenu extends React.Component<NavigationProps, NavigationState> {
   constructor(props: NavigationProps) {
     super(props);
 
@@ -32,14 +32,14 @@ export class SideMenu extends React.Component<NavigationProps, NavigationState>{
     const topLevelMenuItems = this.state.root.children
       ? this.state.root.children.map((nav, key) =>
         <SideMenuSection
-            key={key}
-            nav={nav}
-            rootUrl={this.state.root.url.value}
+          key={key}
+          nav={nav}
+          rootUrl={this.state.root.url.value}
         />)
       : undefined;
 
     return (
-      <div style={{display: 'block'}}>
+      <div style={{ display: 'block' }}>
         {topLevelMenuItems}
       </div>
     );
