@@ -5,26 +5,29 @@ import { Layout } from '../components/Layout';
 import { IInitialProps } from '../utils/IInitialProps';
 
 interface IArticleDataProps {
-  readonly article: Document;
+  readonly data: {
+      resolvedHtml: string;
+      article: Document;
+  };
   readonly rootCodeName: string;
 }
 
 export default class Article extends React.Component<IArticleDataProps> {
   static async getInitialProps({ query }: IInitialProps): Promise<IArticleDataProps> {
-    const article = await KenticoClient
+    const data = await KenticoClient
       .item<Document>(query.codeName)
       .depthParameter(5)
       .getPromise()
-      .then(response => response.item);
+      .then(response => ({resolvedHtml: response.item.content.getHtml(), article: response.item }));
 
-    return { article, rootCodeName: query.rootCodeName };
+    return { data, rootCodeName: query.rootCodeName };
   }
 
   render() {
     return (
       <Layout rootCodeName={this.props.rootCodeName} >
-        <h1>{this.props.article.title.value}</h1>
-        <div dangerouslySetInnerHTML={{ __html: this.props.article.content.value }} />
+        <h1>{this.props.data.article.title.value}</h1>
+        <div dangerouslySetInnerHTML={{ __html: this.props.data.resolvedHtml }} />
       </Layout>
     );
   }
